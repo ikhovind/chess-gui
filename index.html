@@ -1,13 +1,21 @@
 <html>
 <head>
+    <style>
+        h1 {text-align: center}
+        .testclass {
+            margin: 0 auto !important;
+            width: 400px;
+        }
+    </style>
 <!--  Including the chessboardjs files:-->
-    <link rel="stylesheet" href="js/board/lib/chessboard.css">
+    <link rel="stylesheet" href="./js/board/lib/chessboard.css">
     <base href=".">
 <!--  Including jQuery, another tool chessboardjs uses:-->
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
   </head>
 <body>
-  <div id="myBoard" style="width: 400px"></div>
+  <h1>Chess engine soon to be making Rust-based moves</h1>
+  <div class="testclass" id="myBoard" ></div>
 </body>
 
   
@@ -18,6 +26,5 @@
   rather, but i didn't want to so i put it in a new file. 
 -->
 <script type="module" src="./js/board/lib/chessboard.js"></script>
-<script type="module" src="./js/legal/chess.js"></script>
 <script type="module" src="./script.js"></script>
 </html>
