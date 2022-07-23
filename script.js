@@ -1,5 +1,6 @@
 import {Chess} from "./js/legal/chess.js";
 
+
 var board = null
 var game = new Chess()
 var whiteSquareGrey = '#a9a9a9'
