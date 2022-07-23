@@ -1,0 +1,34 @@
+name: Deploy to google compute engine
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  deploy:
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v2
+      - name: rsync deployments
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: -avzr --delete
+          path: ./
+          remote_path: chess-gui/
+          remote_host: 35.217.27.165
+          remote_user: ing_hovind
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}        
+      - name: gcp sync
+        run: |
+          mkdir ~/.ssh
+          echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          touch ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa          
+          ssh ing_hovind@35.217.27.165 sudo cp -r ./chess-gui/* /var/www/chessgui.com/html
+          ssh ing_hovind@35.217.27.165 sudo systemctl restart nginx
+        env:
+          SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+          SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
+          
