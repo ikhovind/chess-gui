@@ -3,6 +3,25 @@ import {Chess} from "./js/legal/chess.js";
 
 var board = null
 var game = new Chess()
+
+
+
+
+const socket = new WebSocket('ws://localhost:8080');
+
+// Connection opened
+socket.addEventListener('open', function (event) {
+  socket.send('Hello Server!');
+});
+
+// Listen for messages
+socket.addEventListener('message', function (event) {
+  console.log('Message from server ', event.data);
+});
+
+
+
+
 var whiteSquareGrey = '#a9a9a9'
 var blackSquareGrey = '#696969'
 
@@ -35,6 +54,7 @@ function onDragStart (source, piece) {
 function onDrop (source, target) {
   removeGreySquares()
 
+
   // see if the move is legal
   var move = game.move({
     from: source,
@@ -44,6 +64,8 @@ function onDrop (source, target) {
 
   // illegal move
   if (move === null) return 'snapback'
+  socket.send(source + target);
+
 }
 
 function onMouseoverSquare (square, piece) {
