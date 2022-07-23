@@ -1,0 +1,9 @@
+[submodule "js/legal"]
+	path = js/legal
+	url = https://github.com/jhlywa/chess.js.git
+[submodule "js/board"]
+	path = js/board
+	url = https://github.com/oakmac/chessboardjs.git
+[submodule "js/uci"]
+	path = js/uci
+	url = https://github.com/ebemunk/node-uci.git
