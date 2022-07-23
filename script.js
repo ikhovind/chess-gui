@@ -7,7 +7,7 @@ var game = new Chess()
 
 
 
-const socket = new WebSocket('ws://localhost:8080');
+const socket = new WebSocket('ws://35.217.27.165:81');
 
 // Connection opened
 socket.addEventListener('open', function (event) {
