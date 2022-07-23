@@ -27,7 +27,7 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa          
           ssh ing_hovind@35.217.27.165 sudo cp -r ./chess-gui/* /var/www/chessgui.com/html
-          ssh ing_hovind@35.217.27.165 systemctl sudo restart nginx
+          ssh ing_hovind@35.217.27.165 sudo systemctl restart nginx
         env:
           SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
           SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
