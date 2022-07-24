@@ -16,7 +16,25 @@ socket.addEventListener('open', function (event) {
 
 // Listen for messages
 socket.addEventListener('message', function (event) {
-  console.log('Message from server ', event.data);
+  var mv;
+  if (event.data.length === 4) {
+    mv = {
+      from: event.data.substring(0,2),
+      to: event.data.substring(2,4)
+    }
+    game.move(mv);
+    board.position(game.fen())
+  }
+  else {
+    console.log("second: " + event.data);
+    mv = {
+      from: event.data.substring(2),
+      to: event.data.substring(2, 4),
+      promotion: event.data.substring(4, 5)
+    }
+    game.move(mv);
+    board.position(game.fen())
+  }
 });
 
 
@@ -44,16 +62,13 @@ function onDragStart (source, piece) {
   // do not pick up pieces if the game is over
   if (game.game_over()) return false
 
-  // or if it's not that side's turn
-  if ((game.turn() === 'w' && piece.search(/^b/) !== -1) ||
-      (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
-    return false
-  }
+
+  // only pick up pieces for White
+  if (piece.search(/^b/) !== -1) return false
 }
 
 function onDrop (source, target) {
   removeGreySquares()
-
 
   // see if the move is legal
   var move = game.move({
@@ -64,8 +79,10 @@ function onDrop (source, target) {
 
   // illegal move
   if (move === null) return 'snapback'
-  socket.send(source + target);
 
+  // make random legal move for black
+  //window.setTimeout(makeRandomMove, 250);
+  socket.send(source + target);
 }
 
 function onMouseoverSquare (square, piece) {
@@ -93,6 +110,9 @@ function onMouseoutSquare (square, piece) {
 
 function onSnapEnd () {
   board.position(game.fen())
+  if (game.game_over() && game.in_check()) {
+    alert("You win!")
+  }
 }
 
 var config = {
