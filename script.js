@@ -4,6 +4,7 @@ import {Chess} from "./js/legal/chess.js";
 var board = null
 var game = new Chess()
 
+
 var whiteSquareGrey = '#a9a9a9'
 var blackSquareGrey = '#696969'
 
@@ -34,6 +35,7 @@ window.addEventListener('load', function () {
         game.move(mv);
         board.position(game.fen())
       }
+      document.getElementById('loading').style.visibility = "hidden";
     });
 
 
@@ -77,6 +79,7 @@ window.addEventListener('load', function () {
       // make random legal move for black
       //window.setTimeout(makeRandomMove, 250);
       socket.send(source + target);
+      document.getElementById('loading').style.visibility = "visible";
     }
 
     function onMouseoverSquare (square, piece) {

@@ -2,9 +2,42 @@
 <head>
     <style>
         h1 {text-align: center}
-        .testclass {
+        #myBoard {
             margin: 0 auto !important;
+            left: 50%;
+            right: 50%;
             width: 400px;
+            height: 400px;
+        }
+        #container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        #loading {
+            position: absolute;
+            left: 50%;
+            top: 200px;
+            z-index: 10;
+            width: 120px;
+            height: 120px;
+            margin: -76px 0 0 -76px;
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+            visibility: hidden;
+            opacity: 80%;
+        }
+        html {
+            width: 100%;
+            height: 80%;
+            background-position: top center;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 <!--  Including the chessboardjs files:-->
@@ -15,7 +48,10 @@
   </head>
 <body>
   <h1>Chess engine soon to be making Rust-based moves</h1>
-  <div class="testclass" id="myBoard" ></div>
+  <div id="container">
+      <div id="loading"></div>
+      <div id="myBoard" ></div>
+  </div>
 </body>
 
   
