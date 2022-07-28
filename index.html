@@ -9,7 +9,7 @@
             right: 50%;
             margin: 0;
             position: absolute;
-            top: 50%;
+            top: 40%;
             -ms-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
             width: 600px;
@@ -22,9 +22,12 @@
             text-align: center;
         }
         #loading {
-            position: absolute;
             left: 50%;
-            top: 300px;
+            right: 50%;
+            position: absolute;
+            top: 54%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
             z-index: 10;
             width: 120px;
             height: 120px;
@@ -55,10 +58,10 @@
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
   </head>
 <body>
-  <div id="container">
+<div id="container">
       <h1>Chess engine soon to be making Rust-based moves</h1>
-      <div id="loading"></div>
-      <div id="myBoard" ></div>
+      <div id="myBoard"></div>
+        <div id="loading"></div>
   </div>
 </body>
 
