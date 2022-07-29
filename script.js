@@ -8,7 +8,6 @@ var game = new Chess()
 var whiteSquareGrey = '#a9a9a9'
 var blackSquareGrey = '#696969'
 
-
 window.addEventListener('load', function () {
   var socket = new WebSocket('ws://34.88.111.133:3389');
 
@@ -36,7 +35,9 @@ window.addEventListener('load', function () {
         board.position(game.fen())
       }
       document.getElementById('loading').style.visibility = "hidden";
+
     });
+
 
 
     function removeGreySquares () {
@@ -107,10 +108,24 @@ window.addEventListener('load', function () {
 
     function onSnapEnd () {
       board.position(game.fen())
-      if (game.game_over() && game.in_check()) {
-        alert("You win!")
+    }
+
+    function onMoveEnd (oldPos, newPos) {
+      if (game.game_over()) {
+        if (game.in_checkmate()) {
+          if (game.turn() === "w") {
+            alert("You lose!")
+          }
+          else {
+            alert("You win!")
+          }
+        }
+        else {
+          alert("Draw!")
+        }
       }
     }
+
 
     var config = {
       draggable: true,
@@ -119,7 +134,8 @@ window.addEventListener('load', function () {
       onDrop: onDrop,
       onMouseoutSquare: onMouseoutSquare,
       onMouseoverSquare: onMouseoverSquare,
-      onSnapEnd: onSnapEnd
+      onSnapEnd: onSnapEnd,
+      onMoveEnd: onMoveEnd
     }
 
     const board = ChessBoard('myBoard', config);
