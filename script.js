@@ -9,10 +9,12 @@ var whiteSquareGrey = '#a9a9a9'
 var blackSquareGrey = '#696969'
 
 window.addEventListener('load', function () {
-  var socket = new WebSocket('ws://34.88.111.133:3389');
+  var socket = new WebSocket('wss://sjakkmotor.ikhovind.no:3389');
 
 // Connection opened
   socket.addEventListener('open', function (event) {
+    // Send a ping event every 10 seconds
+    setInterval(() => socket.send(JSON.stringify("pinger")), 20000);
 // Listen for messages
     socket.addEventListener('message', function (event) {
       var mv;
@@ -25,7 +27,6 @@ window.addEventListener('load', function () {
         board.position(game.fen())
       }
       else {
-        console.log("second: " + event.data);
         mv = {
           from: event.data.substring(2),
           to: event.data.substring(2, 4),
@@ -142,4 +143,5 @@ window.addEventListener('load', function () {
 
   });
 })
+
 
