@@ -27,6 +27,7 @@ window.addEventListener('load', function () {
         board.position(game.fen())
       }
       else {
+        console.log(event.data)
         mv = {
           from: event.data.substring(0,2),
           to: event.data.substring(2, 4),
@@ -56,6 +57,7 @@ window.addEventListener('load', function () {
       $square.css('background', background)
     }
 
+
     function onDragStart (source, piece) {
       // do not pick up pieces if the game is over
       if (game.game_over()) return false
@@ -78,7 +80,16 @@ window.addEventListener('load', function () {
       // illegal move
       if (move === null) return 'snapback'
 
-      // make random legal move for black
+      console.log("making move")
+      if (game.game_over()) {
+        console.log("game over")
+      }
+      if (game.in_checkmate()) {
+        console.log("checkmate")
+      }
+      console.log(game.ascii());
+
+
       //window.setTimeout(makeRandomMove, 250);
       socket.send(source + target);
       document.getElementById('loading').style.visibility = "visible";
@@ -109,20 +120,24 @@ window.addEventListener('load', function () {
 
     function onSnapEnd () {
       board.position(game.fen())
+      if (game.in_checkmate()) {
+        if (game.turn() === "w") {
+          alert("You lose!")
+        }
+        else {
+          alert("You win!")
+        }
+      }
+      if (game.in_draw()) {
+        alert("Draw!")
+      }
     }
 
     function onMoveEnd (oldPos, newPos) {
-      if (game.game_over()) {
-        if (game.in_checkmate()) {
-          if (game.turn() === "w") {
-            alert("You lose!")
-          }
-          else {
-            alert("You win!")
-          }
-        }
-        else {
-          alert("Draw!")
+      console.log("move end")
+      if (game.in_checkmate()) {
+        if (game.turn() === "w") {
+          alert("You lose!")
         }
       }
     }
@@ -136,7 +151,7 @@ window.addEventListener('load', function () {
       onMouseoutSquare: onMouseoutSquare,
       onMouseoverSquare: onMouseoverSquare,
       onSnapEnd: onSnapEnd,
-      onMoveEnd: onMoveEnd
+      onMoveEnd: onMoveEnd,
     }
 
     const board = ChessBoard('myBoard', config);
