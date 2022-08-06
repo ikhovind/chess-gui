@@ -28,7 +28,7 @@ window.addEventListener('load', function () {
       }
       else {
         mv = {
-          from: event.data.substring(2),
+          from: event.data.substring(0,2),
           to: event.data.substring(2, 4),
           promotion: event.data.substring(4, 5)
         }
