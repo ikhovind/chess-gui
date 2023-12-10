@@ -4,3 +4,6 @@
 [submodule "js/board"]
 	path = js/board
 	url = https://github.com/oakmac/chessboardjs.git
+[submodule "engine/chess"]
+	path = engine/chess
+	url = https://github.com/ikhovind/chess

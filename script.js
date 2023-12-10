@@ -9,7 +9,7 @@ var whiteSquareGrey = '#a9a9a9'
 var blackSquareGrey = '#696969'
 
 window.addEventListener('load', function () {
-  var socket = new WebSocket('wss://sjakkmotor.ikhovind.no:3389');
+  var socket = new WebSocket('ws://localhost:3389');
 
 // Connection opened
   socket.addEventListener('open', function (event) {
