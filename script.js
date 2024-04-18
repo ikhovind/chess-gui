@@ -8,39 +8,10 @@ var game = new Chess()
 var whiteSquareGrey = '#a9a9a9'
 var blackSquareGrey = '#696969'
 
+
 window.addEventListener('load', function () {
-  var socket = new WebSocket("wss://chess-uihsyshxva-lz.a.run.app");
-
 // Connection opened
-  socket.addEventListener('open', function (event) {
     // Send a ping event every 10 seconds
-    setInterval(() => socket.send(JSON.stringify("pinger")), 20000);
-// Listen for messages
-    socket.addEventListener('message', function (event) {
-      var mv;
-      if (event.data.length === 4) {
-        mv = {
-          from: event.data.substring(0,2),
-          to: event.data.substring(2,4)
-        }
-        game.move(mv);
-        board.position(game.fen())
-      }
-      else {
-        console.log(event.data)
-        mv = {
-          from: event.data.substring(0,2),
-          to: event.data.substring(2, 4),
-          promotion: event.data.substring(4, 5)
-        }
-        game.move(mv);
-        board.position(game.fen())
-      }
-      document.getElementById('loading').style.visibility = "hidden";
-
-    });
-
-
 
     function removeGreySquares () {
       $('#myBoard .square-55d63').css('background', '')
@@ -80,19 +51,47 @@ window.addEventListener('load', function () {
       // illegal move
       if (move === null) return 'snapback'
 
-      console.log("making move")
       if (game.game_over()) {
         console.log("game over")
       }
       if (game.in_checkmate()) {
         console.log("checkmate")
       }
-      console.log(game.ascii());
 
-
-      //window.setTimeout(makeRandomMove, 250);
-      socket.send(source + target);
       document.getElementById('loading').style.visibility = "visible";
+      fetch("https://ikhovind/chess", {
+        method: "POST",
+        body: JSON.stringify({
+          fen: game.fen()
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        }
+      })
+        .then((response) => response.json())
+        .then((json) => {
+          let data = json.response;
+          var mv;
+          if (data.length == 4) {
+            mv = {
+              from: json.response.substring(0,2),
+              to: json.response.substring(2, 4),
+            }
+
+        }
+        else {
+          mv = {
+            from: json.response.substring(0,2),
+            to: json.response.substring(2, 4),
+            promotion: json.response.substring(4, 5)
+          }
+        }
+          console.log("AI move is:" + JSON.stringify(mv))
+          game.move(mv);
+          board.position(game.fen())
+          document.getElementById('loading').style.visibility = "hidden";
+        } 
+      );
     }
 
     function onMouseoverSquare (square, piece) {
@@ -134,7 +133,6 @@ window.addEventListener('load', function () {
     }
 
     function onMoveEnd (oldPos, newPos) {
-      console.log("move end")
       if (game.in_checkmate()) {
         if (game.turn() === "w") {
           alert("You lose!")
@@ -156,7 +154,4 @@ window.addEventListener('load', function () {
 
     const board = ChessBoard('myBoard', config);
 
-  });
-})
-
-
+});
