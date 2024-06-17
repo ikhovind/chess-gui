@@ -59,7 +59,7 @@ window.addEventListener('load', function () {
       }
 
       document.getElementById('loading').style.visibility = "visible";
-      fetch("https://chess-uihsyshxva-lz.a.run.app/chess", {
+      fetch("http://localhost:8000/chess", {
         method: "POST",
         body: JSON.stringify({
           fen: game.fen()
